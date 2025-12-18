@@ -23,6 +23,8 @@ Ce projet a été réalisé par **Alla NIANG**, apprenant en Developpement DATA 
 
 ## Architecture
 
+![Architecture DataFlow360](Architecture_Projet_Dataflow360_Streaming.png)
+
 Le projet est structuré de manière modulaire :
 
 - `collecte/` : Dossier principal contenant les scripts de collecte et de traitement.
