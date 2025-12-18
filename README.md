@@ -2,7 +2,7 @@
 
 ## Présentation
 
-**DataFlow360-MeteoStream Pipeline** est une plateforme complète de traitement de données conçue pour gérer à la fois des flux **batch** et **temps réel**. Le projet simule un environnement professionnel de bout en bout, intégrant la génération, l’ingestion, le stockage, le traitement, le monitoring et l’exploitation des données.
+**DataFlow360-MeteoStream Pipeline** est une plateforme de traitement de données axée principalement sur le **temps réel** (Streaming & Near Real-Time), tout en conservant des capacités de traitement **batch**. Le projet simule un environnement professionnel de bout en bout, intégrant la génération, l’ingestion, le stockage, le traitement, le monitoring et l’exploitation des données.
 
 Ce projet a été réalisé par **Alla NIANG**, apprenant en Developpement DATA à **ODC (Orange Digital Center), Promo 7**.
 
