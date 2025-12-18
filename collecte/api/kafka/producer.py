@@ -1,9 +1,11 @@
-import requests
-import json
-from kafka import KafkaProducer
+import os
+from dotenv import load_dotenv
+
+# Charger les variables d'environnement
+load_dotenv()
 
 # CONFIGURATION
-TOMORROW_API_KEY = "UUVeOVnuGpAQJ9HJssbulwnQFHytCjVw"
+TOMORROW_API_KEY = os.getenv("TOMORROW_API_KEY")
 LAT, LON = 14.6937, -17.4441  # Pour Dakar
 KAFKA_BROKER = 'kafka:9092'  # Broker Kafka
 TOPIC_NAME = 'weather_dakar' # Notre Topic

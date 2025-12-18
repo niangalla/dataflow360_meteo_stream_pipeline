@@ -14,7 +14,9 @@ Ce projet a été réalisé par **Alla NIANG**, apprenant en Developpement DATA 
 
 ## Fonctionnalités clés
 
-- **Génération de données** : Simulation de données météorologiques et scraping.
+## Fonctionnalités clés
+
+- **Source de données** : API Tomorrow.io (Météo temps réel).
 - **Ingestion & Streaming** : Kafka pour le transport des données en temps réel.
 - **Traitement Big Data** : Spark (PySpark) pour le traitement distribué et Airflow pour l'orchestration des workflows.
 - **Stockage** : HDFS (Hadoop Distributed File System) pour le Data Lake, PostgreSQL pour les métadonnées Airflow et le Data Warehouse.
@@ -29,8 +31,6 @@ Le projet est structuré de manière modulaire :
 
 - `collecte/` : Dossier principal contenant les scripts de collecte et de traitement.
     - `api/` : Contient la logique principale (Airflow, Kafka, PySpark, ELK).
-    - `generation/` : Scripts de génération de données synthétiques.
-    - `scraping/` : Scripts de scraping de données.
 - `config/` : Fichiers de configuration pour les services (Hadoop, Kafka, Spark).
 - `dashboard/` : Code source du dashboard Streamlit pour la visualisation(Incomplet).
 - `init-scripts/` : Scripts d'initialisation pour les bases de données.
