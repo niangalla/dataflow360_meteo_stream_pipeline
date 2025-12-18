@@ -1,0 +1,22 @@
+FROM python:3.11-slim
+
+# Installer Java
+RUN apt-get update && apt-get install -y openjdk-11-jdk && \
+    apt-get clean
+
+# Définir JAVA_HOME
+ENV JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
+ENV PATH=$JAVA_HOME/bin:$PATH
+
+# Installer les dépendances
+RUN pip install streamlit pyspark pandas requests kafka-python
+
+# Copier le dashboard
+COPY app.py /app/app.py
+WORKDIR /app
+
+# Exposer le port 8501 pour Streamlit
+EXPOSE 8501
+
+# Lancer Streamlit
+CMD ["streamlit", "run", "app.py", "--server.port=8501", "--server.address=0.0.0.0"]

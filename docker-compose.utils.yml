@@ -1,0 +1,84 @@
+# =========================================
+# Docker Compose Utils - Services utilitaires
+# =========================================
+version: '3.8'
+
+services:
+  # YARN
+  resourcemanager:
+    image: bde2020/hadoop-resourcemanager:2.0.0-hadoop3.2.1-java8
+    hostname: resourcemanager
+    container_name: resourcemanager
+    ports:
+      - "8088:8088"
+    env_file:
+      - ./config/hadoop.env
+      - ./config/yarn.env
+    volumes:
+      - ./test.sh:/opt/test.sh
+    networks:
+      - my_network
+
+  nodemanager:
+    image: bde2020/hadoop-nodemanager:2.0.0-hadoop3.2.1-java8
+    container_name: nodemanager
+    depends_on:
+      - resourcemanager
+    env_file:
+      - ./config/hadoop.env
+      - ./config/yarn.env
+    networks:
+      - my_network
+
+  # Initialisation HDFS
+  hdfs-init:
+    image: bde2020/hadoop-namenode:2.0.0-hadoop3.2.1-java8
+    container_name: hdfs-init
+    env_file:
+      - ./config/namenode.env
+    command: >
+      bash -c "
+        echo 'Attente du démarrage de HDFS...' &&
+        sleep 30 &&
+        hdfs dfsadmin -safemode wait &&
+        echo 'Création des répertoires HDFS...' &&
+        hdfs dfs -mkdir -p /user/hadoop/datalake/meteo_stream &&
+        hdfs dfs -mkdir -p /user/hadoop/datalake/weather_checkpoint &&
+        hdfs dfs -chmod -R 777 /user &&
+        echo 'HDFS initialisé avec succès'
+      "
+    networks:
+      - my_network
+    restart: "no"
+
+  # Client HDFS pour debug
+  hdfs-client:
+    image: bde2020/hadoop-namenode:2.0.0-hadoop3.2.1-java8
+    container_name: hdfs-client
+    command: ["bash"]
+    tty: true
+    stdin_open: true
+    env_file:
+      - ./config/namenode.env
+    networks:
+      - my_network
+    
+  # Dashboard Streamlit
+  streamlit-dashboard:
+    build:
+      context: ./dashboard
+      dockerfile: Dockerfile.Streamlit
+    container_name: streamlit_dashboard
+    networks:
+      - my_network
+    ports:
+      - "8501:8501"
+    # depends_on:
+    #   - airflow-scheduler
+    #   - kafka
+    #   - namenode
+
+
+networks:
+  my_network:
+    external: true

@@ -1,0 +1,27 @@
+monenv/
+redis_data/
+esdata/
+airflow_postgres_data/
+namenode-data/
+datanode-data/
+.env
+
+# Python
+__pycache__/
+*.pyc
+
+# System
+.DS_Store
+
+# IDE
+.vscode/
+.idea/
+
+# Logs
+*.log
+collecte/api/airflow/logs/
+
+# Data Volumes & Local Data
+meteo_postgres_data/
+pgadmin_data/
+data/

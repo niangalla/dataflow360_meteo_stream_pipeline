@@ -1,0 +1,55 @@
+# =========================================
+# Services PostgreSQL dédié au Data Warehouse
+# =========================================
+version: '3.8'
+
+services:
+  # PostgreSQL pour Data Warehouse Météo
+  postgres-dw:
+    image: postgres:15-alpine
+    container_name: postgres_datawarehouse
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: datawarehouse
+      POSTGRES_PASSWORD: passer123
+      POSTGRES_DB: meteo_dw
+    volumes:
+      - meteo_postgres_data:/var/lib/postgresql/data
+      - ./init-scripts:/docker-entrypoint-initdb.d
+    ports:
+      - "5434:5432"
+    networks:
+      - my_network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U datawarehouse -d meteo_dw"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # PgAdmin pour administration 
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: pgadmin
+    restart: unless-stopped
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: admin123
+      PGADMIN_CONFIG_SERVER_MODE: 'False'
+    volumes:
+      - pgadmin_data:/var/lib/pgadmin
+    ports:
+      - "8081:80"
+    networks:
+      - my_network
+    depends_on:
+      - postgres-dw
+
+volumes:
+  meteo_postgres_data:
+    driver: local
+  pgadmin_data:
+    driver: local
+
+networks:
+  my_network:
+    external: true  # Utilise le réseau existant
